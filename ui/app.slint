@@ -1,0 +1,59 @@
+import { VerticalBox, HorizontalBox, Button, LineEdit, TextEdit, ComboBox, ScrollView } from "std-widgets.slint";
+export component App inherits Window {
+    title: "Tạo đề thi • Rust Native";
+    width: 390px;
+    height: 780px;
+    background: #dce6ff;
+    in-out property <string> question-text: "";
+    in-out property <string> option-a: "";
+    in-out property <string> option-b: "";
+    in-out property <string> option-c: "";
+    in-out property <string> option-d: "";
+    in-out property <string> answer: "A";
+    in-out property <string> status-text: "Tạo câu hỏi mới hoặc nhập từ Word";
+    in-out property <string> import-path: "";
+    in-out property <string> count-text: "0 câu hỏi";
+    callback save-question();
+    callback import-document(string);
+    callback export-bank();
+    VerticalBox {
+        padding: 18px;
+        spacing: 12px;
+        Text { text: "✦ NGÂN HÀNG ĐỀ THI"; font-size: 24px; font-weight: 800; color: #26376b; }
+        Text { text: root.count-text; font-size: 15px; color: #53639b; }
+        Rectangle {
+            background: #ffffffb8;
+            border-radius: 24px;
+            border-width: 1px;
+            border-color: #ffffff;
+            VerticalBox {
+                padding: 16px;
+                spacing: 8px;
+                Text { text: "Thêm / sửa câu hỏi"; font-size: 19px; color: #26376b; }
+                TextEdit { text <=> root.question-text; height: 110px; }
+                LineEdit { placeholder-text: "Đáp án A"; text <=> root.option-a; }
+                LineEdit { placeholder-text: "Đáp án B"; text <=> root.option-b; }
+                LineEdit { placeholder-text: "Đáp án C"; text <=> root.option-c; }
+                LineEdit { placeholder-text: "Đáp án D"; text <=> root.option-d; }
+                HorizontalBox {
+                    Text { text: "Đáp án đúng:"; color: #26376b; }
+                    ComboBox { model: ["A", "B", "C", "D"]; current-value <=> root.answer; }
+                }
+                Button { text: "Lưu câu hỏi"; clicked => { root.save-question(); } }
+            }
+        }
+        Rectangle {
+            background: #ffffffa8;
+            border-radius: 24px;
+            VerticalBox {
+                padding: 16px;
+                spacing: 8px;
+                Text { text: "Nhập từ DOCX / TXT"; font-size: 19px; color: #26376b; }
+                LineEdit { placeholder-text: "Đường dẫn tài liệu"; text <=> root.import-path; }
+                Button { text: "Nhập câu hỏi"; clicked => { root.import-document(root.import-path); } }
+                Button { text: "Xuất ngân hàng JSON"; clicked => { root.export-bank(); } }
+            }
+        }
+        Text { text: root.status-text; wrap: word-wrap; color: #344c85; }
+    }
+}

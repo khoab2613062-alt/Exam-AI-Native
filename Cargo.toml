@@ -1,0 +1,31 @@
+[package]
+name = "rust_exam_native"
+version = "0.1.0"
+edition = "2021"
+build = "build.rs"
+
+[dependencies]
+slint = { version = "1.9", default-features = false, features = ["backend-android-activity-06", "renderer-skia-opengl"] }
+android-activity = "0.6"
+zip = "2.2"
+quick-xml = "0.37"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[build-dependencies]
+slint-build = "1.9"
+
+[lib]
+crate-type = ["cdylib"]
+
+[package.metadata.android]
+package = "com.exam.ai.native"
+build_targets = ["aarch64-linux-android"]
+min_sdk_version = 26
+target_sdk_version = 35
+
+[package.metadata.android.application]
+label = "Exam AI Native"
+
+[package.metadata.android.application.activity]
+exported = true
